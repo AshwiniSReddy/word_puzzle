@@ -1,63 +1,85 @@
-FastClick.attach(document.body);
+const words = ["MISSILE","DRDO","SCIENCE","LEADER","INDIA","ROCKET","TEACHER","SPACE"];
+let foundWords = [];
 
-var wordsToFind = $('#list li').length,
-    colors = ['red', 'green', 'yellow', 'blue', 'purple'],
-    found = 0,
-    clicking = false;
+let isSelecting = false;
+let selected = [];
 
-// Restart function
-function restartGame() {
-  $('.box').attr('class', 'box');
-  $('#list li').removeClass('found');
-  $('#restart').hide();
-  found = 0;
+const boxes = document.querySelectorAll('.box');
+
+function selectBox(box) {
+  if (!selected.includes(box)) {
+    box.classList.add('highlight');
+    selected.push(box);
+  }
 }
 
-// Manual restart button
-$('#restart').click(function() {
-  restartGame();
+// --- Mouse events ---
+boxes.forEach(box => {
+  box.addEventListener('mousedown', () => {
+    isSelecting = true;
+    selectBox(box);
+  });
+  box.addEventListener('mouseover', () => {
+    if (isSelecting) selectBox(box);
+  });
 });
 
-$('#grid').mousedown(function(){
-    clicking = true;
-});
-
-$('#grid').mouseup(function(){
-  clicking = false;
-  $('.box').removeClass('highlight');
-});
-
-// Handle box highlighting
-$('.box').on('mouseover', function() {
-  if (clicking) {
-    var word = $(this).attr('data-word'),
-        wordLen = word.length,
-        $box = $('.box[data-word="' + word + '"]');
-    
-    $(this).addClass('highlight');
-
-    if ($('.box[data-word="' + word + '"].highlight').length == wordLen) {
-      // Word fully highlighted
-      $box.removeClass('highlight').addClass('found-' + colors[found]);
-      $('li:contains("' + word + '")').addClass('found');
-      $('.box').removeClass('highlight');
-      found++;
-
-      console.log(found + ' - ' + wordsToFind);
-
-      if (found == wordsToFind) {
-        // All words found - auto restart after short delay
-        setTimeout(function(){
-          restartGame();
-        }, 500);
-      }
-    }
+// --- Touch events ---
+document.addEventListener('touchstart', (e) => {
+  const touch = e.touches[0];
+  const box = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (box && box.classList.contains('box')) {
+    isSelecting = true;
+    selectBox(box);
   }
 });
 
-// Stop highlighting if mouse leaves a box
-$('.box').on('mouseout', function() {
-  if (!clicking) {
-    $(this).removeClass('highlight');
+document.addEventListener('touchmove', (e) => {
+  e.preventDefault(); // prevent scrolling
+  const touch = e.touches[0];
+  const box = document.elementFromPoint(touch.clientX, touch.clientY);
+  if (box && box.classList.contains('box')) {
+    selectBox(box);
   }
 });
+
+document.addEventListener('touchend', () => {
+  if (isSelecting) {
+    isSelecting = false;
+    checkWord();
+  }
+});
+
+// --- Mouse up ---
+document.addEventListener('mouseup', () => {
+  if (isSelecting) {
+    isSelecting = false;
+    checkWord();
+  }
+});
+
+// --- Check word ---
+function checkWord() {
+  if (selected.length === 0) return;
+
+  const word = selected.map(b => b.textContent).join('');
+
+  if (words.includes(word) && !foundWords.includes(word)) {
+    selected.forEach(b => b.classList.add('found'));
+    foundWords.push(word);
+  } else {
+    selected.forEach(b => b.classList.remove('highlight'));
+  }
+
+  selected = [];
+
+  if (foundWords.length === words.length) {
+    setTimeout(resetGrid, 1000);
+  }
+}
+
+// --- Reset ---
+function resetGrid() {
+  boxes.forEach(b => b.classList.remove('found', 'highlight'));
+  foundWords = [];
+}

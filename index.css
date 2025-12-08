@@ -1,139 +1,49 @@
+/* Import Google Font at the top */
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;700&display=swap');
+
 body {
-  font-family: helvetica neue, san-serif;
-  text-align: center;
+  margin: 0;
+  padding: 0;
   background: #EAE5E3;
-}
-
-#listContainer{
-  display:none !important;
-}
-
-#grid, .box {
-  -webkit-user-select: none;
+  font-family: 'Cormorant Garamond', helvetica neue, sans-serif;
 }
 
 #main {
-  margin: 0px auto !important;
-  max-width: 720px;
-}
-
-/* Updated #grid style */
-#grid {
-  width: 100% !important;
-  margin: 0px;
-  box-shadow: none;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  height: 100vh;
   width: 100%;
-  height: 100%;
-  padding: 50px !important;
-  background: #EAE5E3;
-  border-radius: 0px;
-  font-size: 20px;
-  float: left;
-  overflow: hidden;
-  cursor: pointer;
+  overflow: auto; /* scroll if needed */
 }
 
-@media (max-width:740px) {
-  #grid {
-    float: none;
-  }
-}
-
-@media (max-width:480px) {
-  #grid {
-    margin-bottom: 0px;
-    padding: 50px;
-    width: 100%;
-    height: auto;
-    font-size: 14px;
-    border-radius: 0px;
-  }
-}
-
-
-.box {
-  margin: 0px;
-  width: 48px;
-  height: 48px;
-  line-height: 45px;
-  text-align: center;
+#grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: min(99vmin, 100%);
+  height: min(99vmin, 100%);
   background: #EAE5E3;
   border: 1px solid #363636;
-  box-shadow: none;
-  border-radius: 0px;
-  float: left;
+  overflow: auto;
 }
 
-@media (max-width:480px) {
-  .box {
-    width: 30px;
-    height: 30px;
-    line-height: 30px;
-  }
+.box {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #363636;
+  cursor: pointer;
+  user-select: none; /* prevent text selection while dragging */
+  font-size: 2.5vmin;
 }
-
 
 .box.highlight {
   background: #363636;
   color: #EAE5E3;
-
 }
 
-/* Found word color - now all dark gray */
 .box.found {
   background: #363636 !important;
   color: #EAE5E3 !important;
-}
-
-/* Ensure old color classes also use dark gray */
-.box.found-red,
-.box.found-green,
-.box.found-yellow,
-.box.found-blue,
-.box.found-purple {
-  background: #363636 !important;
-  color: #EAE5E3 !important;
-}
-
-/* List container */
-#listContainer {
-  margin: 0px 0 0 0px;
-  padding: 50px;
-  float: left;
-  height: 410px;
-  width: 200px;
-  background: #C3E5F1;
-  border-radius: 10px;
-}
-
-@media (max-width:740px) {
-  #listContainer {
-    margin: 0px;
-    float: none;
-    width: 250px;
-    height: auto;
-    padding: 50px;
-  }
-}
-
-#list {
-  margin: 0px;
-  padding: 50px;
-  font-size: 20px;
-  text-align: left;
-  list-style: none;
-}
-
-#list li.found {
-  color: #363636;
-  text-decoration: line-through;
-}
-
-#restart {
-  margin: 0px auto 0;
-  line-height: 40px;
-  background: rgba(0,0,0,0.1);
-  border-radius: 5px;
-  cursor: pointer;
-  display: none;
 }
