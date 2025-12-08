@@ -5,11 +5,17 @@ var wordsToFind = $('#list li').length,
     found = 0,
     clicking = false;
 
-$('#restart').click(function() {
+// Restart function
+function restartGame() {
   $('.box').attr('class', 'box');
   $('#list li').removeClass('found');
   $('#restart').hide();
   found = 0;
+}
+
+// Manual restart button
+$('#restart').click(function() {
+  restartGame();
 });
 
 $('#grid').mousedown(function(){
@@ -19,27 +25,39 @@ $('#grid').mousedown(function(){
 $('#grid').mouseup(function(){
   clicking = false;
   $('.box').removeClass('highlight');
-})
+});
 
-$('.box').mouseover().mouseout(function() {
-  if(clicking){
-  // Toggle highlight to box on click
-  $(this).toggleClass('highlight');
-  var word = $(this).attr('data-word'), // Get word attribute from clicked box.
-    wordLen = word.length, // How long is the word.
-    $box = $('.box[data-word="' + word + '"]'); // Get all box's with word attribute.
-  if ($('.box[data-word="' + word + '"].highlight').length == wordLen) {
-    // Word is fully highlighted, remove highlight and add class fount-colorArray
-    $box.removeClass('highlight').addClass('found-' + colors[found]);
-    // Add found class to the list item that contains "word"
-    $('li:contains("' + word + '")').addClass('found');
-    $('.box').removeClass('highlight');
-    found++;
+// Handle box highlighting
+$('.box').on('mouseover', function() {
+  if (clicking) {
+    var word = $(this).attr('data-word'),
+        wordLen = word.length,
+        $box = $('.box[data-word="' + word + '"]');
+    
+    $(this).addClass('highlight');
+
+    if ($('.box[data-word="' + word + '"].highlight').length == wordLen) {
+      // Word fully highlighted
+      $box.removeClass('highlight').addClass('found-' + colors[found]);
+      $('li:contains("' + word + '")').addClass('found');
+      $('.box').removeClass('highlight');
+      found++;
+
+      console.log(found + ' - ' + wordsToFind);
+
+      if (found == wordsToFind) {
+        // All words found - auto restart after short delay
+        setTimeout(function(){
+          restartGame();
+        }, 500);
+      }
+    }
   }
-  console.log(found + ' - ' + wordsToFind);
-  if (found == wordsToFind) {
-    alert('Winner!');
-    $('#restart').show();
-  }
+});
+
+// Stop highlighting if mouse leaves a box
+$('.box').on('mouseout', function() {
+  if (!clicking) {
+    $(this).removeClass('highlight');
   }
 });
