@@ -41,8 +41,8 @@ body {
 
 @media (max-width:480px) {
   #grid {
-    margin-bottom: 20px;
-    padding: 0px;
+    margin-bottom: 0px;
+    padding: 50px;
     width: 100%;
     height: auto;
     font-size: 14px;
@@ -97,8 +97,8 @@ body {
 
 /* List container */
 #listContainer {
-  margin: 20px 0 0 20px;
-  padding: 20px;
+  margin: 0px 0 0 0px;
+  padding: 50px;
   float: left;
   height: 410px;
   width: 200px;
@@ -108,17 +108,17 @@ body {
 
 @media (max-width:740px) {
   #listContainer {
-    margin: auto;
+    margin: 0px;
     float: none;
     width: 250px;
     height: auto;
-    padding-top: 5px;
+    padding: 50px;
   }
 }
 
 #list {
-  margin: auto;
-  padding-left: 20px;
+  margin: 0px;
+  padding: 50px;
   font-size: 20px;
   text-align: left;
   list-style: none;
@@ -130,7 +130,7 @@ body {
 }
 
 #restart {
-  margin: 20px auto 0;
+  margin: 0px auto 0;
   line-height: 40px;
   background: rgba(0,0,0,0.1);
   border-radius: 5px;
