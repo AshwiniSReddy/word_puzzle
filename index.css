@@ -19,7 +19,7 @@ body {
 
 /* Updated #grid style */
 #grid {
-  width: 400px!important;
+  width: 100% !important;
   margin: 0px;
   box-shadow: none;
   width: 100%;
