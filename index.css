@@ -6,9 +6,11 @@ body {
   padding: 0;
   background: #EAE5E3;
   font-family: 'Cormorant Garamond', helvetica neue, sans-serif;
+  font-weight: 500;
 }
 
 #main {
+
   display: flex;
   justify-content: start;
   align-items: start;
@@ -35,7 +37,7 @@ body {
   border: 1px solid #363636;
   cursor: pointer;
   user-select: none; /* prevent text selection while dragging */
-  font-size: 2.5vmin;
+  font-size: 5vmin;
 }
 
 .box.highlight {
