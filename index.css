@@ -33,12 +33,12 @@ body {
   cursor: pointer;
 }
 
-/* @media (max-width:740px) {
+@media (max-width:740px) {
   #grid {
     float: none;
   }
-} */
-/* 
+}
+
 @media (max-width:480px) {
   #grid {
     margin-bottom: 20px;
@@ -48,7 +48,7 @@ body {
     font-size: 14px;
     border-radius: 0px;
   }
-} */
+}
 
 
 .box {
@@ -64,13 +64,13 @@ body {
   float: left;
 }
 
-/* @media (max-width:480px) {
+@media (max-width:480px) {
   .box {
     width: 30px;
     height: 30px;
     line-height: 30px;
   }
-} */
+}
 
 
 .box.highlight {
@@ -106,7 +106,7 @@ body {
   border-radius: 10px;
 }
 
-/* @media (max-width:740px) {
+@media (max-width:740px) {
   #listContainer {
     margin: auto;
     float: none;
@@ -114,7 +114,7 @@ body {
     height: auto;
     padding-top: 5px;
   }
-} */
+}
 
 #list {
   margin: auto;
