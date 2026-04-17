@@ -1,4 +1,5 @@
-const words = ["MISSILE","DRDO","SCIENCE","LEADER","INDIA","ROCKET","TEACHER","SPACE"];
+const words = ["APJ","SLV","ISRO","DRDO","AGNI","ROHINI"];
+
 let foundWords = [];
 
 let isSelecting = false;
