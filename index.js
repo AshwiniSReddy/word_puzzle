@@ -1,4 +1,4 @@
-const words = ["APJ","SLV","ISRO","DRDO","AGNI","ROHINI"];
+const words = ["DREAM","MENTOR","POKHRAN","ROHINI","AGNI","ISRO"];
 
 let foundWords = [];
 
