@@ -1,0 +1,72 @@
+name: Deploy Word Puzzle
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: word-puzzle-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure SSH
+        shell: bash
+        run: |
+          set -e
+
+          mkdir -p ~/.ssh
+
+          printf '%s\n' "${{ secrets.DO_DEPLOY_SSH_KEY }}" \
+            > ~/.ssh/id_ed25519
+
+          chmod 600 ~/.ssh/id_ed25519
+
+          ssh-keyscan -H "${{ secrets.WEB_HOST }}" \
+            >> ~/.ssh/known_hosts
+
+          chmod 600 ~/.ssh/known_hosts
+
+      - name: Deploy website
+        shell: bash
+        run: |
+          rsync -az --delete \
+            --exclude=".git/" \
+            -e "ssh -i ~/.ssh/id_ed25519" \
+            ./ \
+            deploy@${{ secrets.WEB_HOST }}:/var/www/word-puzzle/
+
+      - name: Verify deployment
+        shell: bash
+        run: |
+          ssh -i ~/.ssh/id_ed25519 \
+            deploy@${{ secrets.WEB_HOST }} \
+            "test -f /var/www/word-puzzle/index.html && \
+             test -f /var/www/word-puzzle/index.css && \
+             test -f /var/www/word-puzzle/index.js && \
+             echo 'Word Puzzle deployment successful'"
+
+      - name: Verify website
+        shell: bash
+        run: |
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --retry 5 \
+            --retry-all-errors \
+            --retry-delay 3 \
+            https://word-puzzle.paramfoundation.org/
+
+      - name: Deployment complete
+        run: |
+          echo "Word Puzzle deployment successful."
